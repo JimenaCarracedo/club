@@ -9,11 +9,11 @@
 		<version>2.5.6</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.egg</groupId>
-	<artifactId>labOnline</artifactId>
+	<groupId>com.club</groupId>
+	<artifactId>club</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>labOnline</name>
-	<description>Proyecto Final Curso EGG</description>
+	<name>club</name>
+	<description>Club San Martin</description>
 	<properties>
 		<java.version>1.8</java.version>
 		<spring-cloud.version>2020.0.4</spring-cloud.version>
