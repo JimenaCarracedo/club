@@ -21,4 +21,6 @@ spring:
     cache: false 
 server:
   port: 8080
+  firebase.bucket-name: gs://club-san-martin.appspot.com
+firebase.image-url: https://storage.googleapis.com/${firebase.gs://club-san-martin.appspot.com}/%s
   
