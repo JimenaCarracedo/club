@@ -15,7 +15,7 @@ spring:
     hibernate:
       ddl-auto: update
     properties:
-        dialect: org.hibernate.dialect.MySQL5Dialect
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
         #dialect: org.hibernate.dialect.PostgreSQL10Dialect 
   thymeleaf:
     cache: false 
