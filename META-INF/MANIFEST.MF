@@ -14,3 +14,4 @@ Export-Package: com.club,
  com.sanmartin.club.ErrorService,
  com.sanmartin.club.Repository,
  com.sanmartin.club.Service
+Require-Bundle: com.google.auth.oauth2-http
