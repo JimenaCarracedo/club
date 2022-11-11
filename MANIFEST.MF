@@ -1,4 +1,8 @@
 Manifest-Version: 1.0
+Build-Jdk-Spec: 16
+Implementation-Title: club
+Implementation-Version: 0.0.1-SNAPSHOT
+Created-By: Maven Integration for Eclipse
 Bundle-ManifestVersion: 2
 Bundle-Name: club
 Bundle-SymbolicName: club

@@ -49,7 +49,7 @@ public class SocioService implements UserDetailsService {
 	private FotoService fService;
 
 	@Transactional
-	public void create(ModelMap model, @RequestParam String nombre, @RequestParam String apellido,
+	public void create( @RequestParam String nombre, @RequestParam String apellido,
 			@RequestParam Integer dni, @RequestParam String password, @RequestParam String mail,
 			@RequestParam Integer telefono, @RequestParam List<Taller> taller,
 			@RequestParam Integer numeroAsociado,
@@ -67,8 +67,8 @@ public class SocioService implements UserDetailsService {
 			socio.setApellido(apellido);
 			socio.setNombre(nombre);
 			socio.setDni(dni);
-			String encriptada = new BCryptPasswordEncoder().encode(password.toString());
-			socio.setPassword(encriptada);
+			
+			socio.setPassword(password);
 			socio.setMail(mail);
 			socio.setTelefono(telefono);
 			socio.setTaller(taller);
@@ -94,6 +94,7 @@ public class SocioService implements UserDetailsService {
 			}
 		}
 	}
+	
 
 	@Transactional
 	public void edit(ModelMap model, String id, String nombre, String apellido, Integer dni, String password,
@@ -116,8 +117,8 @@ public class SocioService implements UserDetailsService {
 					socio.setApellido(apellido);
 					socio.setNombre(nombre);
 					socio.setDni(dni);
-					String encriptada = new BCryptPasswordEncoder().encode(password.toString());
-					socio.setPassword(encriptada);
+					
+					socio.setPassword(password);
 					socio.setMail(mail);
 					socio.setTelefono(telefono);
 					socio.setTaller(taller);
@@ -265,7 +266,7 @@ public class SocioService implements UserDetailsService {
 
 		}
 
-		if (password.toString().isEmpty()) {
+		if (password.isEmpty()) {
 			throw new ErrorServicio(" la clave  no puede estar vacia");
 
 		} else if (password == null) {
@@ -302,7 +303,7 @@ public class SocioService implements UserDetailsService {
 		if (telefono == null) {
 			throw new ErrorServicio("el tefono no puede estar vacio o ");
 
-		} else if (telefono.toString().length() < 1) {
+		} else if (telefono.SIZE < 11) {
 			throw new ErrorServicio("el tefono no puede ser menor de 11 digitos ");
 
 		}
@@ -318,7 +319,7 @@ public class SocioService implements UserDetailsService {
 
 		}
 		if (taller.isEmpty()) {
-			throw new ErrorServicio(" la seccion obra social  no puede estar vacia");
+			throw new ErrorServicio(" la seccion taller  no puede estar vacia");
 
 		}
 
@@ -355,7 +356,7 @@ public class SocioService implements UserDetailsService {
 	}
 
 	public boolean validateMail(String mail, Socio socio) {
-		if(socio.getMail().equals(mail)){
+		if(mail.equals(socio.getMail())){
 			return true;
 		} else {
 			List<Socio> lista = repositorio.findAll();
@@ -423,5 +424,5 @@ public class SocioService implements UserDetailsService {
 		}
 
 	}
-	
+		
 }

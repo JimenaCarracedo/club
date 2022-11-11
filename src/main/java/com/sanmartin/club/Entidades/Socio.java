@@ -33,6 +33,7 @@ public class Socio {
 	private String mail;
 	private Integer telefono;
 	private Integer nombreUsuario;
+	private String clave2;
 	@ManyToMany
 	private List<Taller> taller;
 
@@ -98,6 +99,13 @@ public class Socio {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	public String getClave2() {
+		return clave2;
+	}
+
+	public void setClave2(String clave2) {
+		this.clave2 = clave2;
 	}
 
 	public String getMail() {

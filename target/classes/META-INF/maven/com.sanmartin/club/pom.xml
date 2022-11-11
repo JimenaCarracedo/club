@@ -38,12 +38,11 @@
 		<dependency>
     <groupId>org.springframework.cloud</groupId>
     <artifactId>spring-cloud-context</artifactId>
-    <scope>runtime</scope>
+    <version>3.0.4</version>
 	</dependency>
 		<dependency>
 			<groupId>org.thymeleaf.extras</groupId>
 			<artifactId>thymeleaf-extras-springsecurity5</artifactId>
-			<scope>runtime</scope>
 		</dependency>
 
 		<dependency>
@@ -173,7 +172,16 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
+
+					<executions>
+          					<execution>
+            						<goals>
+              							<goal>repackage</goal>
+            						</goals>
+						</execution>
+					</executions>
+						<configuration>
+<mainClass>com.sanmartin.club</mainClass>
 					<excludes>
 						<exclude>
 							<groupId>org.projectlombok</groupId>
