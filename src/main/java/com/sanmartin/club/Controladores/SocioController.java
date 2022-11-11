@@ -93,7 +93,7 @@ public class SocioController {
 
 		}
 
-		return "redirect:/inicio";
+		return "redirect:/";
 	}
 
 	@GetMapping("/editar/{id}")
@@ -129,7 +129,7 @@ public class SocioController {
 			model.addAttribute("error", e.getMessage());
 			return "editar.html";
 		}
-		return "redirect:/usuario/mostrar";
+		return "redirect:/socio/mostrar";
 	}
 
 	@GetMapping("/mostrar")
@@ -153,9 +153,9 @@ public class SocioController {
 			service.delete(id);
 		} catch (Exception e) {
 			model.addAttribute("error", e.getMessage());
-			return "redirect:/usuario/mostrar";
+			return "redirect:/socio/mostrar";
 		}
-		return "redirect:/usuario/mostrar";
+		return "redirect:/socio/mostrar";
 
 	}
 
