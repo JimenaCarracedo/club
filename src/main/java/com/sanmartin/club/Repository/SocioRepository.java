@@ -22,8 +22,5 @@ public interface SocioRepository extends JpaRepository<Socio, String> {
 	@Query(value = "SELECT u FROM Socio u JOIN Socio_taller us JOIN Taller os WHERE os.nombre LIKE :nombre AND "
 			+ "us.taller_id LIKE os.id AND u.id LIKE us.usuario_id", nativeQuery = true)
 	public List<Socio> buscarTaller(@Param("nombre") String nombre);
-	
-	@Query(value="SELECT COUNT(id) AS i FROM Socio WHERE socio_nombre_usuario LIKE "+'u'+" AND socio_password LIKE "+'c')
-	public List<Socio> Login(@Param("id") String id);
 
 }
