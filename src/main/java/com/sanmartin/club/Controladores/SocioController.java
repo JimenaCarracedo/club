@@ -93,7 +93,7 @@ public class SocioController {
 
 		}
 
-		return "redirect:/";
+		return "redirect:/inicio";
 	}
 
 	@GetMapping("/editar/{id}")
