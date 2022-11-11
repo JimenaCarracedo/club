@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Obras Sociales</title>
+<title>Talleres</title>
 <link rel="shortcut icon" type="image/jpg" th:href="@{assets/favicon.jpg}"/>
 </head>
 <body>
@@ -13,10 +13,10 @@
 			<div class="card-header py-3">
 				<div class="row">
 					<div class="col-10">
-						<h1 class="h3 text-gray-800 d-flex justify-content-sm-start align-items-start">Obras Sociales</h1>
+						<h1 class="h3 text-gray-800 d-flex justify-content-sm-start align-items-start">Talleres</h1>
 					</div>
 					<div class="col-2 d-flex justify-content-sm-end align-items-end">
-						<a th:href="@{obrasocial/crear}" class="button btn btn-primary">Crear Nuevo</a>
+						<a th:href="@{taller/crear}" class="button btn btn-primary">Crear Nuevo</a>
 					</div>
 				</div>
 			</div>
@@ -55,7 +55,7 @@
 									
 									<!-- Button trigger modal -->
 									<button type="button" class="button btn btn-outline-dark btn-outline-secondary btn-sm" data-bs-toggle="modal" th:attr="data-bs-target='#staticBackdrop'+*{aux.id}">Eliminar</button>
-									<a th:href="@{obrasocial/modificar/__${aux.id}__}" class="button btn btn-outline-primary btn-sm">Editar</a>
+									<a th:href="@{taller/modificar/__${aux.id}__}" class="button btn btn-outline-primary btn-sm">Editar</a>
 									
 									<!-- Modal -->
 									<div class="modal fade" th:id="*{'staticBackdrop'+{aux.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -75,7 +75,7 @@
 												</div>
 												<div class="modal-footer">
 													<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-													<a th:href="@{/obrasocial/eliminar/__${aux.id}__}" class="button btn btn-danger">Eliminar</a>
+													<a th:href="@{/taller/eliminar/__${aux.id}__}" class="button btn btn-danger">Eliminar</a>
 												</div>
 											</div>
 										</div>

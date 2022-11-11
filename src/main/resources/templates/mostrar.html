@@ -6,7 +6,7 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<title>Listado de Pacientes</title>
+	<title>Listado de Socios</title>
 	<link rel="shortcut icon" type="image/jpg" th:href="@{assets/favicon.jpg}"/>
 </head>
 
@@ -17,7 +17,7 @@
 				<div class="row">
 					<div class="col-10">
 						<h1 class="h3 text-gray-800 d-flex justify-content-sm-start align-items-start">Listado de
-							Pacientes</h1>
+							Socios</h1>
 					</div>
 				</div>
 			</div>
@@ -33,7 +33,7 @@
 								<th>Mail</th>
 								<th>Telefono</th>
 								<th>Direccion</th>
-								<th>Obra social</th>
+								<th>Taller</th>
 								<th>Nro Asociado</th>
 								<th>Modificar</th>
 							</tr>
@@ -47,16 +47,16 @@
 								<th>Mail</th>
 								<th>Telefono</th>
 								<th>Direccion</th>
-								<th>Obra social</th>
+								<th>Taller</th>
 								<th>Nro Asociado</th>
 								<th>Modificar</th>
 							</tr>
 						</tfoot>
 						<tbody>
-							<tr th:each="aux : ${usuario}">
+							<tr th:each="aux : ${socio}">
 								<td th:text="${aux.dni}"></td>
 								<td>
-									<img th:src="${'/foto/usuario/' + aux.id}" class="img-thumbnail" width=80px
+									<img th:src="${'/foto/socio/' + aux.id}" class="img-thumbnail" width=80px
 										height=80px>
 								</td>
 								<td th:text="${aux.nombre}+' '+${aux.apellido}"></td>
@@ -66,10 +66,10 @@
 								<td th:text="${aux.direccion}"></td>
 								<td>
 									<ol>
-										<li th:each="lis : ${aux.obraSocial}" th:text="${lis.nombre}"></li>
+										<li th:each="lis : ${aux.taller}" th:text="${lis.nombre}"></li>
 									</ol>
 								</td>
-								<td th:text="${aux.numeroAsociado}"></td>
+								<td th:text="${aux.numeroSocio}"></td>
 								<td>
 									<!-- Button trigger modal -->
 									<button type="button"

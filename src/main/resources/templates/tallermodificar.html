@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Obras Sociales</title>
+<title>Talleres</title>
 <link rel="shortcut icon" type="image/jpg" th:href="@{assets/favicon.jpg}"/>
 </head>
 <body>
@@ -13,20 +13,20 @@
 			<div class="card-header py-3">
 				<div class="row">
 					<div class="col">
-						<h1 class="h3 mb-2 text-gray-800" th:text="'Editar '+${obrasocial.nombre}"></h1>
+						<h1 class="h3 mb-2 text-gray-800" th:text="'Editar '+${taller.nombre}"></h1>
 					</div>
 				</div>
 			</div>
 			<div class="card-body">
 				<p th:if="${error != null}" th:text="${error}"></p>
-				<form th:action="@{/obrasocial/modificar}" method="POST">
-					<input type="hidden" name="id" th:value="${obrasocial.id}">
-					<input th:value="${obrasocial.nombre}" type="text" name="nombre" placeholder="Nombre" class="form-control mb-1">
-					<input th:value="${obrasocial.codigo}" type="number" name="codigo" placeholder="Codigo" class="form-control mb-1">
-					<input th:value="${obrasocial.telefono}" type="number" name="telefono" placeholder="Telefono" class="form-control mb-1">
-					<input th:value="${obrasocial.direccion}" type="text" name="direccion" placeholder="Direccion" class="form-control mb-1">
-					<input th:value="${obrasocial.arancel}" type="number" name="arancel" class="form-control mb-1" placeholder="Arancel">
-					<input th:value="${obrasocial.mail}" type="text" name="mail" class="form-control mb-1" placeholder="Email">
+				<form th:action="@{/taller/modificar}" method="POST">
+					<input type="hidden" name="id" th:value="${taller.id}">
+					<input th:value="${taller.nombre}" type="text" name="nombre" placeholder="Nombre" class="form-control mb-1">
+					<input th:value="${taller.codigo}" type="number" name="codigo" placeholder="Codigo" class="form-control mb-1">
+					<input th:value="${taller.telefono}" type="number" name="telefono" placeholder="Telefono" class="form-control mb-1">
+					<input th:value="${taller.direccion}" type="text" name="direccion" placeholder="Direccion" class="form-control mb-1">
+					<input th:value="${taller.arancel}" type="number" name="arancel" class="form-control mb-1" placeholder="Arancel">
+					<input th:value="${taller.mail}" type="text" name="mail" class="form-control mb-1" placeholder="Email">
 					<button class="btn btn-primary" type="submit">Guardar</button>
 					<button class="btn btn-secondary" type="reset">Restablecer</button>
 				</form>

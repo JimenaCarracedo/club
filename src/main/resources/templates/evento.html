@@ -6,7 +6,7 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<title>Analisis</title>
+	<title>Evento</title>
 </head>
 
 <body>
@@ -16,12 +16,12 @@
 			<div class="card-header py-3">
 				<div class="row">
 					<div class="col-10">
-						<h1 class="h3 text-gray-800 d-flex justify-content-sm-start align-items-start">Analisis</h1>
+						<h1 class="h3 text-gray-800 d-flex justify-content-sm-start align-items-start">Evento</h1>
 					</div>
 
 					<div sec:authorize="hasRole('ROLE_ADMIN')"
 						class="col-2 d-flex justify-content-sm-end align-items-end">
-						<a th:href="@{analisis/crear}" class="button btn btn-primary">Crear Nuevo</a>
+						<a th:href="@{evento/crear}" class="button btn btn-primary">Crear Nuevo</a>
 					</div>
 
 				</div>
@@ -33,57 +33,47 @@
 						<thead sec:authorize="hasRole('ROLE_ADMIN')">
 							<tr>
 								<th>Nombre</th>
-								<th>Unidad Bioquimica</th>
-								<th>Obra Social</th>
-								<th>Preparativos</th>
+								<th>Taller</th>
+								<th>Reservas</th>
 								<th>Modificar</th>
 							</tr>
 						</thead>
 						<tfoot sec:authorize="hasRole('ROLE_ADMIN')">
 							<tr>
 								<th>Nombre</th>
-								<th>Unidad Bioquimica</th>
-								<th>Obra Social</th>
-								<th>Preparativos</th>
+								<th>Taller</th>
+								<th>Reservas</th>
 								<th>Modificar</th>
 							</tr>
 						</tfoot>
 						<thead sec:authorize="hasRole('ROLE_PACIENTE')">
 							<tr>
 								<th>Nombre</th>
-								<th>Unidad Bioquimica</th>
-								<th>Obra Social</th>
-								<th>Preparativos</th>
+								<th>Taller</th>
+								<th>Reservas</th>
+								<th>Modificar</th>
 							</tr>
 						</thead>
-						<tfoot sec:authorize="hasRole('ROLE_PACIENTE')">
+						<tfoot sec:authorize="hasRole('ROLE_SOCIO')">
 							<tr>
 								<th>Nombre</th>
-								<th>Unidad Bioquimica</th>
-								<th>Obra Social</th>
-								<th>Preparativos</th>
+								<th>Taller</th>
+								<th>Reservas</th>
+								<th>Modificar</th>
 							</tr>
 						</tfoot>
 						<tbody>
-							<div sec:authorize="hasRole('ROLE_PACIENTE')">
+							<div sec:authorize="hasRole('ROLE_SOCIO')">
 								<tr th:each="aux : ${list}">
-									<div th:if="${session.usuariosession.obraSocial != null}">
-										<div th:if="${aux.obraSocial != null}">
+									<div th:if="${session.sociosession.taller != null}">
+										<div th:if="${aux.taller != null}">
 											<div
-												th:if="${session.usuariosession.obraSocial.nombre == aux.obraSocial.nombre}">
+												th:if="${session.sociosession.taller.nombre == aux.taller.nombre}">
 												<td th:text="${aux.nombre}"></td>
-												<td th:text="${aux.unidadBioquimica}"></td>
 												<td>
-													<span th:if="${aux.obraSocial == null}">Sin Obra Social</span>
-													<span th:if="${aux.obraSocial != null}"
-														th:text="${aux.obraSocial.nombre}"></span>
-												</td>
-
-												<td>
-													<span th:if="${aux.preparativos == null}">8 Horas de ayuno</span>
-													<a th:if="${aux.preparativos != null}"
-														th:href="${aux.preparativos.instruccion}" target="_blank"
-														th:text="${aux.preparativos.nombre}"> </a>
+													<span th:if="${aux.taller == null}">Sin Taller</span>
+													<span th:if="${aux.taller != null}"
+														th:text="${aux.taller.nombre}"></span>
 												</td>
 											</div>
 										</div>
@@ -95,20 +85,14 @@
 								<tr th:each="aux : ${list}">
 
 									<td th:text="${aux.nombre}"></td>
-									<td th:text="${aux.unidadBioquimica}"></td>
-									<td>
-										<span th:if="${aux.obraSocial == null}">Sin Obra Social</span>
-										<a th:if="${aux.obraSocial != null}">
-											<ol>
-												<li th:each="lis : ${aux.obraSocial}" th:text="${lis.nombre}"></li>
-											</ol>
-										</a>
-									</td>
 
 									<td>
-										<span th:if="${aux.preparativos == null}">8 Horas de ayuno</span>
-										<a th:if="${aux.preparativos != null}" th:href="${aux.preparativos.instruccion}"
-											target="_blank" th:text="${aux.preparativos.nombre}"> </a>
+										<span th:if="${aux.taller == null}">Sin Taller</span>
+										<a th:if="${aux.taller != null}">
+											<ol>
+												<li th:each="lis : ${aux.taller}" th:text="${lis.nombre}"></li>
+											</ol>
+										</a>
 									</td>
 
 									<td width="20%">
@@ -118,7 +102,7 @@
 											class="button btn btn-outline-dark btn-outline-secondary btn-sm"
 											data-bs-toggle="modal"
 											th:attr="data-bs-target='#staticBackdrop'+*{aux.id}">Eliminar</button>
-										<a th:href="@{analisis/edit/__${aux.id}__}"
+										<a th:href="@{evento/edit/__${aux.id}__}"
 											class="button btn btn-outline-primary btn-sm">Editar</a>
 
 										<!-- Modal -->
@@ -147,7 +131,7 @@
 													<div class="modal-footer">
 														<button type="button" class="btn btn-secondary"
 															data-bs-dismiss="modal">Cerrar</button>
-														<a th:href="@{/analisis/eliminar/__${aux.id}__}"
+														<a th:href="@{/evento/eliminar/__${aux.id}__}"
 															class="button btn btn-danger">Eliminar</a>
 													</div>
 												</div>
