@@ -93,7 +93,7 @@ public class SocioController {
 
 		}
 
-		return "redirect:/";
+		return "/inicio.html";
 	}
 
 	@GetMapping("/editar/{id}")
@@ -112,7 +112,7 @@ public class SocioController {
 			model.addAttribute("error", e.getMessage());
 		}
 
-		return "editar.html";
+		return "redirect:/socio/inicio/";
 	}
 
 	@PostMapping("/editar")

@@ -1,152 +1,170 @@
 <!DOCTYPE html>
-<html lang="es-AR" xmlns:th="https://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+<html lang="es-AR">
 <head>
-<meta charset="UTF-8">
-<title>Inicio - Club San Martin</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="description" content="Club San Martin" />
+<meta name="Jimena Carracedo" content="Club San Martin" />
+<title>Club San Martin</title>
+<!-- Favicon-->
+<link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+<!-- Core theme CSS (includes Bootstrap)-->
+<link href="/css/styles.css" rel="stylesheet" />
+
+<!-- SimpleLightbox plugin CSS-->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/SimpleLightbox/2.1.0/simpleLightbox.min.css" rel="stylesheet" />
+
 </head>
-<body>
-	<div class="container-fluid" layout:fragment="contenido">
-		<h1 class="h3 mb-2 text-gray-800">Panel de Control</h1>
 
-		<div class="row">
 
-			<div class="col-xl-3 col-md-6 mb-4">
-				<div class="card border-left-primary shadow h-100 py-2">
-					<div class="card-body">
-						<div class="row no-gutters align-items-center">
-							<div class="col mr-2">
-								<div class="text-s font-weight-bold text-primary text-uppercase mb-1">Talleres</div>
-								<a th:href="@{/taller}" class="button btn btn-outline-primary btn-sm">Administrar</a>
-								<!--<div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>-->
-							</div>
-							<div class="col-auto">
-								<i class="fas fa-calendar fa-2x text-gray-300"></i>
-							</div>
-						</div>
-					</div>
-				</div>
+<body id="page-top">
+	<!-- Navigation-->
+	<nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
+		<div class="container px-4 px-lg-5">
+			<a class="navbar-brand" href="#page-top">Club Social y Deportivo San Martin</a>
+			<button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			
+			<div class="collapse navbar-collapse" id="navbarResponsive">
+				<ul class="navbar-nav ms-auto my-2 my-lg-0">
+				<li class="nav-item"><a class="nav-link btn btn-outline btn-sm me-2" href="socio/login">
+					Login 
+					</a></li>
+					<li class="nav-item">
+						<a class="nav-link" href="#about">Acerca</a>
+					</li>
+					
+					
+						
+					<li class="nav-item">
+						<a class="nav-link" href="#portfolio">Utilidades</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#contact">Contacto</a>
+					</li>
+					<!--<li class="nav-item"><a class="nav-link" href="/admin">Login</a></li>-->
+					
+					<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Actividades
+        </a>
+        
+          
+          
+          <a class="dropdown-item" href="#">Talleres</a>
+       	  <a class="dropdown-item" href="#">Eventos</a>
+          	
+      </li>
+				</ul>
 			</div>
-
-			<!-- Earnings (Monthly) Card Example -->
-			<div class="col-xl-3 col-md-6 mb-4">
-				<div class="card border-left-success shadow h-100 py-2">
-					<div class="card-body">
-						<div class="row no-gutters align-items-center">
-							<div class="col mr-2">
-								<div class="text-s font-weight-bold text-success text-uppercase mb-1">Eventos</div>
-								<a th:href="@{/evento}" class="button btn btn-outline-success btn-sm">Administrar</a>
-							</div>
-							<div class="col-auto">
-								<i class="fas fa-calendar fa-2x text-gray-300"></i>
-							</div>
-						</div>
-					</div>
+		</div>
+	</nav>
+	<!-- Masthead-->
+	<header class="masthead">
+		<div class="container px-4 px-lg-5 h-100">
+			<div class="row gx-4 gx-lg-5 h-100 align-items-center justify-content-center text-center">
+				<div class="col-lg-8 align-self-end">
+					<h1 class="text-white font-weight-bold">Club Social y Deportivo San Martin</h1>
+					<img src="assets/img/favicon-modified.png"/>
+					<hr class="divider" />
 				</div>
-			</div>
-
-			<div class="col-xl-3 col-md-6 mb-4">
-				<div class="card border-left-info shadow h-100 py-2">
-					<div class="card-body">
-						<div class="row no-gutters align-items-center">
-							<div class="col mr-2">
-								<div class="text-s font-weight-bold text-info text-uppercase mb-1">Cuotas</div>
-								<a th:href="@{/cuota}" class="button btn btn-outline-info btn-sm">Administrar</a>
-							</div>
-							<div class="col-auto">
-								<i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-xl-3 col-md-6 mb-4">
-				<div class="card border-left-warning shadow h-100 py-2">
-					<div class="card-body">
-						<div class="row no-gutters align-items-center">
-							<div class="col mr-2">
-								<div class="text-s font-weight-bold text-warning text-uppercase mb-1">Socios</div>
-								<a th:href="@{/socio/mostrar}" class="button btn btn-outline-warning btn-sm">Administrar</a>
-							</div>
-							<div class="col-auto">
-								<i class="fas fa-comments fa-2x text-gray-300"></i>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<!-- Area Chart -->
-			<div class="col-xl-8 col-lg-7">
-				<div class="card shadow mb-4">
-					<!-- Card Header - Dropdown -->
-					<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-						<h6 class="m-0 font-weight-bold text-primary">Capita Talleres</h6>
-						<div class="dropdown no-arrow">
-							<a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								<i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-							</a>
-							<div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-								<div class="dropdown-header">Menu:</div>
-								<a class="dropdown-item" href="#">Accion</a>
-								<a class="dropdown-item" href="#">Otra accion</a>
-								<div class="dropdown-divider"></div>
-								<a class="dropdown-item" href="#">Alguna accion mas</a>
-							</div>
-						</div>
-					</div>
-					<!-- Card Body -->
-					<div class="card-body">
-						<div class="chart-area">
-							<canvas id="myAreaChart"></canvas>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<!-- Pie Chart -->
-			<div class="col-xl-4 col-lg-5">
-				<div class="card shadow mb-4">
-					<!-- Card Header - Dropdown -->
-					<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-						<h6 class="m-0 font-weight-bold text-primary">Cuotas</h6>
-						<div class="dropdown no-arrow">
-							<a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								<i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-							</a>
-							<div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-								<div class="dropdown-header">Menu:</div>
-								<a class="dropdown-item" href="#">Accion</a>
-								<a class="dropdown-item" href="#">Otra accion</a>
-								<div class="dropdown-divider"></div>
-								<a class="dropdown-item" href="#">Alguna accion mas</a>
-							</div>
-						</div>
-					</div>
-					<!-- Card Body -->
-					<div class="card-body">
-						<div class="chart-pie pt-4 pb-2">
-							<canvas id="myPieChart"></canvas>
-						</div>
-						<div class="mt-4 text-center small">
-							<span class="mr-2">
-								<i class="fas fa-circle text-primary"></i>
-								Federada Salud
-							</span>
-							<span class="mr-2">
-								<i class="fas fa-circle text-success"></i>
-								CannaLabs420
-							</span>
-							<span class="mr-2">
-								<i class="fas fa-circle text-info"></i>
-								Favaloro Corazon
-							</span>
-						</div>
-					</div>
+				<div class="col-lg-8 align-self-baseline">
+					<p class="text-white-75 mb-5"></p>
+					<a class="btn btn-primary btn-xl" href="#about">Conozca más</a>
 				</div>
 			</div>
 		</div>
-
+	</header>
+	<!-- About-->
+	<section class="page-section bg-primary" id="about">
+		<div class="container px-4 px-lg-5">
+			<div class="row gx-4 gx-lg-5 justify-content-center">
+				<div class="col-lg-8 text-center">
+					<h2 class="text-white mt-0">SOS EL CLUB!</h2>
+					<hr class="divider divider-light" />
+					<p class="text-white-75 mb-4"></p>
+					<a class="btn btn-light btn-xl" href="#portfolio">Comencemos!</a>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- Services-->
+	
+	<!-- Portfolio-->
+	<div id="portfolio">
+		<div class="container-fluid p-0">
+			<div class="row g-0">
+				<div class="col-lg-4 col-sm-6">
+					<a class="portfolio-box" href="assets/img/comisiondirectiva.jpg" width=1080px height=1080px title="Comision Directiva">
+						<img class="img-fluid" src="assets/img/comisiondirectiva.jpg" width=1080px height=1080px alt="Comision Directiva" />
+						<div class="portfolio-box-caption">
+							<div class="project-category text-white-50">Comision Directiva</div>
+							<div class="project-name">Club San Martin</div>
+						</div>
+					</a>
+				</div>
+				<div class="col-lg-4 col-sm-6">
+					<a class="portfolio-box" href="assets/img/torneos.jpg" width=1080px height=1080px title="Torneos">
+						<img class="img-fluid" src="assets/img/torneos.jpg" width=1080px height=1080px alt="Torneos" />
+						<div class="portfolio-box-caption">
+							<div class="project-category text-white-50">Torneos</div>
+							<div class="project-name">Club San Martin</div>
+						</div>
+					</a>
+				</div>
+				<div class="col-lg-4 col-sm-6">
+					<a class="portfolio-box" href="assets/img/eventos.jpg" width=1080px height=1080px title="Eventos">
+						<img class="img-fluid" src="assets/img/eventos.jpg" width=1080px height=1080px alt="Eventos"/>
+						<div class="portfolio-box-caption">
+							<div class="project-category text-white-50">Eventos</div>
+							<div class="project-name">Club San Martin</div>
+						</div>
+					</a>
+				</div>
+				<div class="col-lg-4 col-sm-6">
+					<a class="portfolio-box" href="assets/img/talleres.jpg" width=1080px height=1080px title="Talleres">
+						<img class="img-fluid" src="assets/img/talleres.jpg" width=1080px height=1080px alt="Talleres" />
+						<div class="portfolio-box-caption">
+							<div class="project-category text-white-50">Talleres</div>
+							<div class="project-name">Club San Martin</div>
+						</div>
+					</a>
+				</div>
+				<div class="col-lg-4 col-sm-6">
+					<a class="portfolio-box" href="assets/img/socios.jpg" width=1080px height=1080px title="Socios">
+						<img class="img-fluid" src="assets/img/socios.jpg" width=1080px height=1080px alt="Socios" />
+						<div class="portfolio-box-caption">
+							<div class="project-category text-white-50">Socios</div>
+							<div class="project-name">Club San Martin</div>
+						</div>
+					</a>
+				</div>
+				
+				</div>
+			</div>
+		</div>
 	</div>
+	<!-- Call to action-->
+	
+	<!-- Contact-->
+	
+	<!-- Footer-->
+	<footer class="bg-light py-5">
+		<div class="container px-4 px-lg-5">
+			<div class="small text-center text-muted">Copyleft © Jimena Carracedo - Club San Martin Programa 2022</div>
+		</div>
+	</footer>
+	<!-- Bootstrap core JS-->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+	<!-- SimpleLightbox plugin JS-->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/SimpleLightbox/2.1.0/simpleLightbox.min.js"></script>
+	<!-- Core theme JS-->
+	<script src="js/scripts.js"></script>
+	<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+	<!-- * *                               SB Forms JS                               * *-->
+	<!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
+	<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+	<script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
 </body>
 </html>
