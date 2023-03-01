@@ -28,11 +28,11 @@ public class Socio {
 
 	private String nombre;
 	private String apellido;
-	private Integer dni;
-	private String password;
+	private String dni;
+	private String clave;
 	private String mail;
 	private Integer telefono;
-	private Integer nombreUsuario;
+	private String nombreUsuario;
 	private String clave2;
 	@ManyToMany
 	private List<Taller> taller;
@@ -61,11 +61,11 @@ public class Socio {
 		this.id = id;
 	}
 	
-	public Integer getNombreUsuario() {
+	public String getNombreUsuario() {
 		return nombreUsuario;
 	}
 
-	public void setNombreUsuario(Integer dni) {
+	public void setNombreUsuario(String dni) {
 		this.nombreUsuario = dni;
 	}
 
@@ -85,20 +85,20 @@ public class Socio {
 		this.apellido = apellido;
 	}
 
-	public Integer getDni() {
+	public String getDni() {
 		return dni;
 	}
 
-	public void setDni(Integer dni) {
+	public void setDni(String dni) {
 		this.dni = dni;
 	}
 
-	public String getPassword() {
-		return password;
+	public String getClave() {
+		return clave;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setClave(String clave) {
+		this.clave = clave;
 	}
 	public String getClave2() {
 		return clave2;

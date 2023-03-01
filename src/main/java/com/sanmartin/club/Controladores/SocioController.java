@@ -2,16 +2,21 @@ package com.sanmartin.club.Controladores;
 
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 
 import javax.swing.JOptionPane;
 
+import org.apache.tomcat.jni.User;
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.remoting.jaxws.SimpleHttpServerJaxWsServiceExporter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,12 +46,21 @@ public class SocioController {
 
 	@Autowired
 	private SocioRepository sRepository;
-	
 	@GetMapping("/login")
-	public String login(){
-			return "login";
+	public String loginView(){
+		return "login.html";
 	}
-		
+	@PostMapping("socio/login")
+	public String login(User user,String username, ModelMap model, @RequestParam(required = false) String dni,
+			@RequestParam(required = false) String clave) {
+			
+		service.loadUserByUsername(username);
+		if(user!=null) {
+			return "inicio.html";
+		}
+		return "registrar.html";
+	}
+				
 	@GetMapping("/registrar")
 	public String registerView(ModelMap model) {
 
@@ -66,18 +80,18 @@ public class SocioController {
 	@PostMapping("/registrar")
 
 	public String registrar(ModelMap model, @RequestParam(required = false) String nombre,
-			@RequestParam(required = false) String apellido, @RequestParam(required = false) Integer dni,
+			@RequestParam(required = false) String apellido, @RequestParam(required = false) String dni,
 			@RequestParam(required = false) String clave, @RequestParam(required = false) String mail,
 			@RequestParam(required = false) Integer telefono,
 			@RequestParam(required = false) List<Taller> taller,
 			@RequestParam(required = false) Integer numeroAsociado,
 			@RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaNacimiento,
 			@RequestParam(required = false) String direccion, @RequestParam(required = false) String sexo,
-			MultipartFile foto, @RequestParam(required = false) String clave2) {
+			MultipartFile foto, 
+			@RequestParam(required = false) String clave2) {
 			
 		try {
-			service.create(nombre, apellido, dni, clave, mail, telefono, taller, numeroAsociado, fechaNacimiento,
-					direccion, sexo, foto, clave2);
+			service.create(nombre, apellido, dni, clave, mail, telefono, taller, numeroAsociado, fechaNacimiento, direccion, sexo, foto, clave2);
 
 		} catch (ErrorServicio e) {
 			model.addAttribute("error", e.getMessage());
@@ -93,7 +107,7 @@ public class SocioController {
 
 		}
 
-		return "/inicio.html";
+		return "inicio.html";
 	}
 
 	@GetMapping("/editar/{id}")
@@ -116,7 +130,7 @@ public class SocioController {
 	}
 
 	@PostMapping("/editar")
-	public String edit(ModelMap model, String id, String nombre, String apellido, Integer dni, String password,
+	public String edit(ModelMap model, String id, String nombre, String apellido, String dni, String password,
 			String mail, Integer telefono, List<Taller> taller, Integer numeroAsociado,
 			@DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaNacimiento, String direccion, String sexo,
 			MultipartFile foto, String clave2) {
@@ -171,12 +185,12 @@ public class SocioController {
 			return "";
 
 		}
-		return "";
+		return "./src/main/resources/templates/mostrar.html";
 
 	}
 
 	@GetMapping("/buscardni")
-	public String buscarDni(ModelMap model, @RequestParam Integer dni) {
+	public String buscarDni(ModelMap model, @RequestParam String dni) {
 
 		try {
 
@@ -187,7 +201,7 @@ public class SocioController {
 			return "";
 
 		}
-		return "";
+		return "mostrar.html";
 
 	}
 
@@ -203,8 +217,9 @@ public class SocioController {
 			return "";
 
 		}
-		return "";
+		return "taller.html";
 
 	}
+	
 
 }

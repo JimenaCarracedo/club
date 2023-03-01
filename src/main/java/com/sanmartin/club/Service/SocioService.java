@@ -1,6 +1,7 @@
 package com.sanmartin.club.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -27,10 +28,10 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
-
+import com.sanmartin.club.Entidades.Socio;
 
 import com.sanmartin.club.Entidades.Foto;
-import com.sanmartin.club.Entidades.Socio;
+
 import com.sanmartin.club.Entidades.Taller;
 
 import com.sanmartin.club.ErrorService.ErrorServicio;
@@ -50,13 +51,13 @@ public class SocioService implements UserDetailsService {
 
 	@Transactional
 	public void create( @RequestParam String nombre, @RequestParam String apellido,
-			@RequestParam Integer dni, @RequestParam String password, @RequestParam String mail,
+			@RequestParam String dni, @RequestParam String clave, @RequestParam String mail,
 			@RequestParam Integer telefono, @RequestParam List<Taller> taller,
 			@RequestParam Integer numeroAsociado,
 			@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaNacimiento, @RequestParam String direccion,
 			@RequestParam String sexo, MultipartFile foto, @RequestParam String clave2) throws ErrorServicio {
 
-		validate(nombre, apellido, dni, password, mail, telefono, taller, numeroAsociado, fechaNacimiento, direccion,
+		validate(nombre, apellido, dni, clave, mail, telefono, taller, numeroAsociado, fechaNacimiento, direccion,
 				sexo, foto, clave2);
 
 		Socio socio = new Socio();
@@ -68,7 +69,7 @@ public class SocioService implements UserDetailsService {
 			socio.setNombre(nombre);
 			socio.setDni(dni);
 			
-			socio.setPassword(password);
+			socio.setClave(clave);
 			socio.setMail(mail);
 			socio.setTelefono(telefono);
 			socio.setTaller(taller);
@@ -95,15 +96,26 @@ public class SocioService implements UserDetailsService {
 		}
 	}
 	
-
 	@Transactional
-	public void edit(ModelMap model, String id, String nombre, String apellido, Integer dni, String password,
+	public boolean login(ModelMap model, String dni, String clave) throws ErrorServicio {
+		boolean aproved=false;
+		Socio socio =new Socio();
+		if(dni.equals(socio.getDni())&& clave.equals(socio.getClave())) {
+			aproved=true;
+			
+		}else{
+			throw new ErrorServicio("usuario o contraseña inválidos");
+		}
+		return aproved;
+	}
+	@Transactional
+	public void edit(ModelMap model, String id, String nombre, String apellido, String dni, String clave,
 			String mail, Integer telefono, List<Taller> taller, Integer numeroAsociado,
 			@DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaNacimiento, String direccion, String sexo,
 			MultipartFile foto, String clave2) throws ErrorServicio {
 		{
 
-			validate(nombre, apellido, dni, password, mail, telefono, taller, numeroAsociado, fechaNacimiento,
+			validate(nombre, apellido, dni, clave, mail, telefono, taller, numeroAsociado, fechaNacimiento,
 					direccion, sexo, foto, clave2);
 
 			Optional<Socio> rta = repositorio.findById(id);
@@ -118,7 +130,7 @@ public class SocioService implements UserDetailsService {
 					socio.setNombre(nombre);
 					socio.setDni(dni);
 					
-					socio.setPassword(password);
+					socio.setClave(clave);
 					socio.setMail(mail);
 					socio.setTelefono(telefono);
 					socio.setTaller(taller);
@@ -213,7 +225,7 @@ public class SocioService implements UserDetailsService {
 	}
 
 	@Transactional(readOnly = true)
-	public Socio searchBydni(Integer dni) throws ErrorServicio {
+	public Socio searchBydni(String dni) throws ErrorServicio {
 
 		if (dni == null) {
 			throw new ErrorServicio("el dni no puede estar vacio  ");
@@ -224,7 +236,7 @@ public class SocioService implements UserDetailsService {
 
 		List<Socio> lista = repositorio.buscarDni(dni);
 
-		if (lista.isEmpty()) {
+		if (lista==null) {
 			throw new ErrorServicio("no existe socio con ese dni");
 		} else {
 			return lista.get(0);
@@ -249,7 +261,7 @@ public class SocioService implements UserDetailsService {
 
 	}
 
-	public void validate(String nombre, String apellido, Integer dni, String password, String mail, Integer telefono,
+	public void validate(String nombre, String apellido, String dni, String clave, String mail, Integer telefono,
 			List<Taller> taller, Integer numeroAsociado, Date fechaNacimiento, String direccion, String sexo,
 			MultipartFile foto, String clave2) throws ErrorServicio {
 
@@ -266,10 +278,10 @@ public class SocioService implements UserDetailsService {
 
 		}
 
-		if (password.isEmpty()) {
+		if (clave.isEmpty()) {
 			throw new ErrorServicio(" la clave  no puede estar vacia");
 
-		} else if (password == null) {
+		} else if (clave == null) {
 			throw new ErrorServicio(" la clave  no puede estar nula");
 
 		}
@@ -281,7 +293,7 @@ public class SocioService implements UserDetailsService {
 
 		}
 
-		if (!password.equals(clave2)) {
+		if (!clave.equals(clave2)) {
 			throw new ErrorServicio("las claves no pueden ser distintas");
 		}
 
@@ -322,15 +334,18 @@ public class SocioService implements UserDetailsService {
 			throw new ErrorServicio(" la seccion taller  no puede estar vacia");
 
 		}
-
-		
 	}
 
+		
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Integer dni = Integer.parseInt(username);
-		Socio socio = repositorio.buscarDni(dni).get(0);
-		if (socio != null) {
+		
+		Socio socio = new Socio();
+		List<Socio> usuario = repositorio.buscarDni(socio.getDni());
+		if(usuario.isEmpty()){
+	        throw new UsernameNotFoundException("User not authorized.");
+	    }
+		if (usuario.contains(socio.getDni())) {
 			List<GrantedAuthority> permisos = new ArrayList<>();
 
 			GrantedAuthority permiso1 = new SimpleGrantedAuthority("ROLE_SOCIO");
@@ -345,15 +360,19 @@ public class SocioService implements UserDetailsService {
 			ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
 
 			HttpSession session = attr.getRequest().getSession(true);
-			session.setAttribute("sociosession", socio);
+			session.setAttribute("usuariosession", usuario);
 
-			User user = new User(socio.getDni().toString(), socio.getPassword(), permisos);
+			User user = new User(socio.getDni().toString(), socio.getClave(), permisos);
 			return user;
 		} else {
 			return null;
 		}
 
 	}
+
+		
+
+
 
 	public boolean validateMail(String mail, Socio socio) {
 		if(mail.equals(socio.getMail())){
@@ -381,7 +400,7 @@ public class SocioService implements UserDetailsService {
 
 	}
 
-	public boolean validateDni(Integer dni, Socio socio) {
+	public boolean validateDni(String dni, Socio socio) {
 
 		if (dni.equals(socio.getDni())) {
 			return true;
@@ -389,7 +408,7 @@ public class SocioService implements UserDetailsService {
 			List<Socio> lista = repositorio.findAll();
 
 			if (!lista.isEmpty()) {
-				List<Integer> listaDni = new ArrayList<Integer>();
+				List<String> listaDni = new ArrayList<String>();
 
 				for (Socio aux : lista) {
 					listaDni.add(aux.getDni());
@@ -424,5 +443,5 @@ public class SocioService implements UserDetailsService {
 		}
 
 	}
-		
+	
 }
