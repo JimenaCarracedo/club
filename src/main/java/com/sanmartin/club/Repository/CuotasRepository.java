@@ -22,14 +22,14 @@ public interface CuotasRepository extends JpaRepository<Cuotas, String>{
             + "t.id LIKE oo.taller_id", nativeQuery = true)
     public List<Cuotas> SearchByTaller(@Param("Taller") Taller taller);
 
-    @Query(value = "SELECT cuo FROM Cuotas cuo WHERE cuo. fechaOrden LIKE : fechaOrden", nativeQuery = true)
-    public List<Cuotas> SearchByDate(@Param(" fechaOrden") Date fechaOrden);
+    @Query(value = "SELECT cuo FROM Cuotas cuo WHERE cuo. fecha LIKE : fecha", nativeQuery = true)
+    public List<Cuotas> SearchByDate(@Param(" fecha") Date fecha);
 
-    @Query(value = "SELECT cuo FROM Cuotas cuo  ORDER BY cuo.fechaOrden ASC", nativeQuery = true)
-    public List<Cuotas> OrderByDateAsc(@Param(" fechaOrden") Date fechaOrden);
+    @Query(value = "SELECT cuo FROM Cuotas cuo  ORDER BY cuo.fecha ASC", nativeQuery = true)
+    public List<Cuotas> OrderByDateAsc(@Param(" fecha") Date fecha);
 
-    @Query(value = "SELECT cuo FROM Cuotas cuo  ORDER BY cuo.fechaOrden DESC", nativeQuery = true)
-    public List<Cuotas> OrderByDateDesc(@Param(" fechaOrden") Date fechaOrden);
+    @Query(value = "SELECT cuo FROM Cuotas cuo  ORDER BY cuo.fecha DESC", nativeQuery = true)
+    public List<Cuotas> OrderByDateDesc(@Param(" fecha") Date fecha);
     
 }
 

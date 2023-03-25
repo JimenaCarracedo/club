@@ -5,7 +5,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
 
+
 @SpringBootApplication(scanBasePackages={"com.sanmartin.club"})
+
 public class ClubApplication {
 
 		public static void main(String[] args) throws Throwable {

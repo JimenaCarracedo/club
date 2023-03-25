@@ -2,25 +2,34 @@ package com.sanmartin.club.Entidades;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
-import javax.persistence.Entity;
-
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 
 import org.hibernate.annotations.GenericGenerator;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+
+import lombok.Data;
+import lombok.Data;
 
 
 
-
-
+@Data
 @Entity
-public class Socio {
 
+public class Socio {
 	@Id
 	@GeneratedValue(generator = "uuid")
 	@GenericGenerator(name = "uuid", strategy = "uuid2")
@@ -29,11 +38,17 @@ public class Socio {
 	private String nombre;
 	private String apellido;
 	private String dni;
-	private String clave;
+	private String password;
 	private String mail;
 	private Integer telefono;
 	private String nombreUsuario;
-	private String clave2;
+	
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "socio_roles",
+        joinColumns = @JoinColumn(name = "socio_id", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+    public Set<Role> roles;
+	
 	@ManyToMany
 	private List<Taller> taller;
 
@@ -45,7 +60,7 @@ public class Socio {
 	private String direccion;
 
 	private String sexo;
-
+	
 	@OneToOne
 	private Foto foto;
 
@@ -94,18 +109,11 @@ public class Socio {
 	}
 
 	public String getClave() {
-		return clave;
+		return password;
 	}
 
-	public void setClave(String clave) {
-		this.clave = clave;
-	}
-	public String getClave2() {
-		return clave2;
-	}
-
-	public void setClave2(String clave2) {
-		this.clave2 = clave2;
+	public void setClave(String password) {
+		this.password = password;
 	}
 
 	public String getMail() {
@@ -172,6 +180,12 @@ public class Socio {
 		this.foto = foto;
 	}
 
-	 
+	public void setRoles(Set<Role> roles) {
+		this.roles=roles;
+		
+	}
+
+	
+	
 	
 }

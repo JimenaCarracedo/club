@@ -1,0 +1,155 @@
+:root {
+  --color-azul: rgb(62, 125, 163);
+  --color-azul-obscuro: rgb(8,26,38);
+  --color-gris-claro: rgb(151, 168, 169);
+  --color-gris-obscuro: rgb(52, 73, 94);
+  --color-amarillo: rgb(252, 184, 34);
+}
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Hind Siliguri", sans-serif;
+  
+}
+.cabecera {
+  height: 9vh;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 3em;
+}
+.cabecera img {
+  width: 5em;
+  padding-left: 2%;
+}
+.cabecera h1 {
+  text-align: center;
+  color: var(--color-azul);
+  font-size: 2em;
+  flex-grow: 3;
+}
+
+footer {
+  background: var(--color-gris-obscuro);
+  height: 7vh;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 3em;
+  font-family: "Shadows Into Light Two", cursive;
+  color: var(--color-amarillo)em;
+}
+footer>a:hover {
+  color: var(--color-amarillo);
+  font-size: 1.5em;
+  background: #fff;
+  padding: 6px 10px;
+  border-radius: 10px;
+}
+footer>a:active {
+  color: var(--color-gris-claro);
+}
+footer>a:visited {
+  color: var(--color-amarillo);
+}
+nav {
+  background: var(--color-azul);
+  width: 100vw;
+  height: 6vh;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+nav a {
+  color: #fff;
+  font-size: 1.2em;
+  text-decoration: none;
+  background: none;
+  padding: 6px 15px;
+  border-radius: 10px;
+}
+nav a:hover {
+  background-color: white;
+  color: var(--color-gris-claro);
+}
+
+main {
+  height: 76vh;
+  display: flex;
+ 
+}
+.contenedor {
+  margin: auto 0;
+  width: 100vw;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+  /*align-content:center;*/
+  gap: 2em;
+}
+
+.card {
+  width: 13rem;
+  height: 0.5rem;
+  font-size: 0.65em;
+  justify-content: center;
+  align-items: center;
+}
+
+.card>img {
+  width: 100%;
+  max-width: 350px;
+  height: 13em;
+  object-fit: cover;
+}
+.card > ul > li {
+  line-height: 0.7em;
+}
+.card-body {
+  height: 4em;
+  background: var(--color-azul);
+  text-align: center;
+}
+.card-body .card-title {
+   color:#fff;
+  font-size: 1.5em;
+  font-weight:bold;
+}
+.card-text {
+  color: white;
+  
+}
+.list-group-item {
+  text-align: center;
+}
+.finish {
+  display: flex;
+  height: 0.5em;
+  align-items: center;
+  justify-content: center;
+  background-color:white; 
+}
+
+ .finish>a{
+ color:white;
+}  
+
+.button1{
+  background-color:var(--color-amarillo);
+  border-radius:30px;
+  padding:.4em 2em; 
+}
+
+.btn1{
+  color:var(--color-gris-obscuro);
+  text-decoration:none;  
+}   

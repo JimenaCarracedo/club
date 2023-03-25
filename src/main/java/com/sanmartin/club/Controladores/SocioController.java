@@ -1,36 +1,33 @@
 package com.sanmartin.club.Controladores;
 
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Arrays;
+
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
 
-import javax.swing.JOptionPane;
-
-import org.apache.tomcat.jni.User;
-import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.remoting.jaxws.SimpleHttpServerJaxWsServiceExporter;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.BeanIds;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+
 import com.sanmartin.club.Entidades.Socio;
 import com.sanmartin.club.Entidades.Taller;
-
 import com.sanmartin.club.ErrorService.ErrorServicio;
 import com.sanmartin.club.Repository.SocioRepository;
-import com.sanmartin.club.Service.CuotaService;
 import com.sanmartin.club.Service.SocioService;
 import com.sanmartin.club.Service.TallerService;
 
@@ -40,27 +37,31 @@ import com.sanmartin.club.Service.TallerService;
 public class SocioController {
 	@Autowired
 	private SocioService service;
-
+	 
 	@Autowired
 	private TallerService tallerService;
-
+	
 	@Autowired
-	private SocioRepository sRepository;
+    private AuthenticationManager authenticationManager;
+	@GetMapping("/index")
+	public String index(){
+		return "index.html";
+	}
 	@GetMapping("/login")
 	public String loginView(){
 		return "login.html";
 	}
-	@PostMapping("socio/login")
-	public String login(User user,String username, ModelMap model, @RequestParam(required = false) String dni,
-			@RequestParam(required = false) String clave) {
-			
-		service.loadUserByUsername(username);
-		if(user!=null) {
-			return "inicio.html";
-		}
-		return "registrar.html";
-	}
-				
+	
+	@RequestMapping("socio/login")
+    public ResponseEntity<String> authenticateUser(LoginDto loginDto){
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                loginDto.getUsername(), loginDto.getPassword()));
+        
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        return new ResponseEntity<>("User signed-in successfully!.", HttpStatus.OK);
+        
+        
+    }		
 	@GetMapping("/registrar")
 	public String registerView(ModelMap model) {
 
@@ -71,14 +72,13 @@ public class SocioController {
 
 		} catch (ErrorServicio e) {
 			model.addAttribute("error", e.getMessage());
-			return "registrar.html";
+			return "redirect: /registrar.html";
 		}
 
-		return "registrar.html";
+		return "redirect: /registrar.html";
 	}
 	
 	@PostMapping("/registrar")
-
 	public String registrar(ModelMap model, @RequestParam(required = false) String nombre,
 			@RequestParam(required = false) String apellido, @RequestParam(required = false) String dni,
 			@RequestParam(required = false) String clave, @RequestParam(required = false) String mail,
@@ -92,7 +92,7 @@ public class SocioController {
 			
 		try {
 			service.create(nombre, apellido, dni, clave, mail, telefono, taller, numeroAsociado, fechaNacimiento, direccion, sexo, foto, clave2);
-
+			
 		} catch (ErrorServicio e) {
 			model.addAttribute("error", e.getMessage());
 
@@ -107,7 +107,7 @@ public class SocioController {
 
 		}
 
-		return "inicio.html";
+		return "index.html";
 	}
 
 	@GetMapping("/editar/{id}")

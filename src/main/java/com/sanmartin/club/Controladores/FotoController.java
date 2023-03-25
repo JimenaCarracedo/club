@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.sanmartin.club.Entidades.Socio;
 import com.sanmartin.club.ErrorService.ErrorServicio;
 import com.sanmartin.club.Service.SocioService;
+
 @Controller
 @RequestMapping("/foto")
 public class FotoController {

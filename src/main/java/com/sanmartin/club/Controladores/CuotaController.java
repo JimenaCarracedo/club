@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,8 +24,9 @@ import com.sanmartin.club.Service.EventosService;
 import com.sanmartin.club.Service.TallerService;
 
 
+
 @Controller
-public class CuotasController {
+public class CuotaController {
 	
 	@Autowired
 	private EventosService EvSv;
@@ -35,7 +37,7 @@ public class CuotasController {
 	@Autowired
 	private CuotaService CuoSv;
 
-	// @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
 	@GetMapping("admin/cuota")
 	public String listar(ModelMap modelo) {
 		try {
@@ -49,7 +51,7 @@ public class CuotasController {
 		return ("cuotaCrear");
 	}
 
-	// @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
 	@GetMapping("/eliminar/{id}")
 	public String borrar(ModelMap modelo, @PathVariable String id) {
 		try {
@@ -61,17 +63,17 @@ public class CuotasController {
 		return ("redirect:/cuotas");
 	}
 
-	/*
-	 * // @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-	 * 
-	 * @GetMapping("/ver-analisis{id}") public String verAnalisis(ModelMap
-	 * modelo, @PathVariable String id) { try { OrdenMedica om = OmSv.findById(id);
-	 * modelo.addAttribute(om); } catch (Exception e) { modelo.addAttribute("error",
-	 * e.getMessage()); }
-	 * 
-	 * return ("redirect:/ordenmedica"); }
-	 */
-	// @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+	
+	  @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+	  
+	  @GetMapping("/ver-cuota{id}") public String verAnalisis(ModelMap
+	  modelo, @PathVariable String id) { try { Cuotas cu = CuoSv.findById(id);
+	  modelo.addAttribute(cu); } catch (Exception e) { modelo.addAttribute("error",
+	  e.getMessage()); }
+	  
+	  return ("redirect:/cuota"); }
+	 
+	 @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
 	@GetMapping("/modificar/{id}")
 	public String viewEdit(ModelMap modelo, @PathVariable String id) {
 		try {
@@ -88,7 +90,7 @@ public class CuotasController {
 		return "cuotaEditar";
 	}
 
-	// @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
 	@PostMapping("/save-edit")
 	public String editar(ModelMap modelo, @RequestParam String id, @RequestParam List<Eventos> evento,
 			@RequestParam MultipartFile foto, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaOrden,
@@ -102,7 +104,7 @@ public class CuotasController {
 		return ("redirect:/cuota");
 	}
 
-	// @PreAuthorize("hasAnyRole('ROLE_PACIENTE')")
+	@PreAuthorize("hasAnyRole('ROLE_Socio')")
 	@GetMapping("/crear")
 	public String nuevaCuo(ModelMap modelo) {
 		try {
@@ -116,7 +118,7 @@ public class CuotasController {
 		return ("cuotaCrear");
 	}
 
-	// @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
 	@PostMapping("/guardar")
 	public String sendNew(ModelMap modelo, @RequestParam List<Eventos> evento, @RequestParam MultipartFile foto,
 			@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaOrden, @RequestParam Socio socio,

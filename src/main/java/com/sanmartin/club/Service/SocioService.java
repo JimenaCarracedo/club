@@ -2,6 +2,7 @@ package com.sanmartin.club.Service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -31,10 +32,11 @@ import org.springframework.web.multipart.MultipartFile;
 import com.sanmartin.club.Entidades.Socio;
 
 import com.sanmartin.club.Entidades.Foto;
-
+import com.sanmartin.club.Entidades.Role;
 import com.sanmartin.club.Entidades.Taller;
 
 import com.sanmartin.club.ErrorService.ErrorServicio;
+import com.sanmartin.club.Repository.RoleRepository;
 import com.sanmartin.club.Repository.SocioRepository;
 
 
@@ -43,6 +45,8 @@ public class SocioService implements UserDetailsService {
 	@Autowired
 	private SocioRepository repositorio;
 
+	@Autowired 
+	private RoleRepository rolerepository;
 	@Autowired
 	private CuotaService cuoService;
 
@@ -68,8 +72,8 @@ public class SocioService implements UserDetailsService {
 			socio.setApellido(apellido);
 			socio.setNombre(nombre);
 			socio.setDni(dni);
-			
-			socio.setClave(clave);
+			String encriptada = new BCryptPasswordEncoder().encode(clave);
+			socio.setClave(encriptada);
 			socio.setMail(mail);
 			socio.setTelefono(telefono);
 			socio.setTaller(taller);
@@ -80,7 +84,10 @@ public class SocioService implements UserDetailsService {
 			Foto imagen = fService.crear(foto);
 			socio.setFoto(imagen);
 			socio.setNombreUsuario(dni);
-			repositorio.save(socio);
+			Role roles = rolerepository.searchByName("ROLE_ADMIN").get();
+	        socio.setRoles(Collections.singleton(roles));
+
+	        repositorio.save(socio);
 		} else {
 			if (!bool) {
 				if (!bool2) {
@@ -96,18 +103,7 @@ public class SocioService implements UserDetailsService {
 		}
 	}
 	
-	@Transactional
-	public boolean login(ModelMap model, String dni, String clave) throws ErrorServicio {
-		boolean aproved=false;
-		Socio socio =new Socio();
-		if(dni.equals(socio.getDni())&& clave.equals(socio.getClave())) {
-			aproved=true;
-			
-		}else{
-			throw new ErrorServicio("usuario o contraseña inválidos");
-		}
-		return aproved;
-	}
+	
 	@Transactional
 	public void edit(ModelMap model, String id, String nombre, String apellido, String dni, String clave,
 			String mail, Integer telefono, List<Taller> taller, Integer numeroAsociado,
@@ -340,18 +336,15 @@ public class SocioService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		
-		Socio socio = new Socio();
-		List<Socio> usuario = repositorio.buscarDni(socio.getDni());
-		if(usuario.isEmpty()){
-	        throw new UsernameNotFoundException("User not authorized.");
-	    }
-		if (usuario.contains(socio.getDni())) {
+		
+		Socio usuario = repositorio.buscarDni(username).get(0);
+		if(usuario!=null){
 			List<GrantedAuthority> permisos = new ArrayList<>();
 
 			GrantedAuthority permiso1 = new SimpleGrantedAuthority("ROLE_SOCIO");
 			permisos.add(permiso1);
 
-			if (socio.getNombre().equalsIgnoreCase("ADMIN")) {
+			if (usuario.getNombre().equalsIgnoreCase("ADMIN")) {
 				GrantedAuthority permiso2 = new SimpleGrantedAuthority("ROLE_ADMIN");
 				permisos.add(permiso2);
 
@@ -362,7 +355,7 @@ public class SocioService implements UserDetailsService {
 			HttpSession session = attr.getRequest().getSession(true);
 			session.setAttribute("usuariosession", usuario);
 
-			User user = new User(socio.getDni().toString(), socio.getClave(), permisos);
+			User user = new User(usuario.getDni().toString(), usuario.getClave(), permisos);
 			return user;
 		} else {
 			return null;

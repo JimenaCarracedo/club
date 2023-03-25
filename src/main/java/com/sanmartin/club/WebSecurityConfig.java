@@ -1,50 +1,64 @@
 package com.sanmartin.club;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 
-import com.sanmartin.club.Service.SocioService;
-
+import com.sanmartin.club.Entidades.Socio;
 
 @Configuration
-@EnableWebSecurity
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+@EnableMethodSecurity
+public class WebSecurityConfig{
 
-    @Autowired
-    private SocioService myAppUserDetailsService;
-
-    @Override
-	protected void configure(HttpSecurity http) throws Exception{
-		http.headers().frameOptions().sameOrigin().and().authorizeRequests()
-			.antMatchers("/css/*", "/js/*", "/img/*").permitAll()
-			.and().formLogin().loginPage("/login")										
-										.usernameParameter("username")
-										.passwordParameter("password")
-										.defaultSuccessUrl("/admin")
-										.failureUrl("/usuario/login")
-										.permitAll()
-							.and().logout()
-									.logoutUrl("/logout")
-									.logoutSuccessUrl("/")
-									.permitAll();
-	}
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-    }
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        auth.userDetailsService( myAppUserDetailsService).passwordEncoder(passwordEncoder);
-    }
     
+
+
+    private UserDetailsService userDetailsService;
+
+    public WebSecurityConfig(UserDetailsService userDetailsService){
+        this.userDetailsService = userDetailsService;
+    }
+
+    @Bean(name="myPasswordEncoder")
+    public PasswordEncoder getPasswordEncoder() {
+            DelegatingPasswordEncoder delPasswordEncoder=  (DelegatingPasswordEncoder)PasswordEncoderFactories.createDelegatingPasswordEncoder();
+            BCryptPasswordEncoder bcryptPasswordEncoder =new BCryptPasswordEncoder();
+        delPasswordEncoder.setDefaultPasswordEncoderForMatches(bcryptPasswordEncoder);
+        return delPasswordEncoder;      
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(
+                                 AuthenticationConfiguration configuration) throws Exception {
+        return configuration.getAuthenticationManager();
+    }
+
+    @Bean
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
+        http.csrf().disable()
+                .authorizeHttpRequests((authorize) ->
+                        //authorize.anyRequest().authenticated());
+                authorize.antMatchers(HttpMethod.GET, "/api/**").permitAll()
+                
+);
+        return http.build();
+    }
 }
+
+
+    

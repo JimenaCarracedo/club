@@ -35,14 +35,14 @@ public class CuotaService {
 	}
 
 	@Transactional
-	public void create(List<Eventos> eventos, MultipartFile foto, Date fechaOrden, Socio socio,
+	public void create(List<Eventos> eventos, MultipartFile foto, Date fecha, Socio socio,
 			Taller taller) throws ErrorServicio {
 
 		Cuotas nueva = new Cuotas();
 
 		nueva.setTaller(taller);
 		nueva.setSocio(socio);
-		nueva.setFecha(fechaOrden);
+		nueva.setFecha(fecha);
 
 		Foto imagen = fService.crear(foto);
 		socio.setFoto(imagen);
@@ -56,14 +56,14 @@ public class CuotaService {
 	}
 
 	@Transactional
-	public void edit(String id, List<Eventos> eventos, MultipartFile foto, Date fechaOrden, Socio socio,
+	public void edit(String id, List<Eventos> eventos, MultipartFile foto, Date fecha, Socio socio,
 			Taller taller) throws ErrorServicio {
 		Cuotas edit = cuotasRepository.findById(id).get();
 
-		validate(eventos, foto, fechaOrden, socio, taller);
+		validate(eventos, foto, fecha, socio, taller);
 		edit.setTaller(taller);
 		edit.setSocio(socio);
-		edit.setFecha(fechaOrden);
+		edit.setFecha(fecha);
 
 		Foto imagen = fService.crear(foto);
 		socio.setFoto(imagen);
@@ -95,11 +95,11 @@ public class CuotaService {
 	}
 
 	@Transactional
-	public List<Cuotas> SearchByDate(Date fechaOrden) {
-		return cuotasRepository.SearchByDate(fechaOrden);
+	public List<Cuotas> SearchByDate(Date fecha) {
+		return cuotasRepository.SearchByDate(fecha);
 	}
 
-	public void validate(List<Eventos> eventos , MultipartFile foto, Date fechaOrden, Socio socio,
+	public void validate(List<Eventos> eventos , MultipartFile foto, Date fecha, Socio socio,
 			Taller taller) throws ErrorServicio {
 		if (eventos.isEmpty() == true || eventos == null) {
 			throw new ErrorServicio("El evento no se encuentra");
@@ -107,7 +107,7 @@ public class CuotaService {
 		if (foto == null) {
 			throw new ErrorServicio("Sin foto cargada");
 		}
-		if (fechaOrden == null) {
+		if (fecha == null) {
 			throw new ErrorServicio("Sin fecha cargada");
 		}
 		if (socio == null) {
