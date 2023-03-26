@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es-AR" xmlns:th="https://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>Cuotas</title>
+	<link rel="shortcut icon" type="image/jpg" th:href="@{assets/favicon.jpg}"/>
+</head>
+
+<body>
+	<div class="container-fluid" layout:fragment="contenido">
+		<div class="card shadow mb-4">
+			<div class="card-header py-3">
+				<div class="row">
+					<div class="col">
+						<h1 class="h3 mb-2 text-gray-800">Crear Cuota</h1>
+					</div>
+				</div>
+			</div>
+			<div class="card-body">
+				<p>Por favor rellene todos los campos.</p>
+				<p th:if="${error != null}" th:text="${error}"></p>
+				<form th:action="@{/cuota/guardar}" method="POST" enctype="multipart/form-data">
+
+					<input type="hidden" name="socio" th:value="${session.sociosession.id}">
+					<select name="evento" id="evento" class="form-control mb-1 selectpicker" multiple>
+						<option th:value="@{null}" disabled> -Seleccionar Evento- </option>
+						<option th:each="opc : ${evento}" th:value="${opc.id}" th:text="${opc.nombre}"></option>
+					</select>
+
+					<select name="taller" id="taller" class="form-control mb-1 selectpicker" multiple>
+						<option th:value="@{null}" disabled> -Seleccionar Taller- </option>
+						<option th:each="opc : ${talleres}" th:value="${opc.id}" th:text="${opc.nombre}"></option>
+					</select>
+
+					<input type="date" name="fechaCuota" value="2021-01-01" min="2021-01-01" max="2040-12-31"
+						class="form-control mb-1">
+					<input type="file" name="foto" class="form-control mb-1">
+
+					<button class="btn btn-primary" type="submit">Guardar</button>
+					<button class="btn btn-secondary" type="reset">Restablecer</button>
+
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>
