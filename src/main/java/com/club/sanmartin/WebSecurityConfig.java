@@ -47,7 +47,7 @@ public class WebSecurityConfig{
         http.csrf().disable()
                 .authorizeHttpRequests((authorize) ->
                         //authorize.anyRequest().authenticated());
-                authorize.antMatchers(HttpMethod.GET, "/api/**").permitAll()
+                authorize.antMatchers(HttpMethod.GET, "/api/**/").permitAll()
         
                 		);
         return http.build();

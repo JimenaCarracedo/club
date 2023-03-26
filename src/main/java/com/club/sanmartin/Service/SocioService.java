@@ -50,11 +50,11 @@ public class SocioService implements UserDetailsService {
 	public void create( @RequestParam String nombre, @RequestParam String apellido,
 			@RequestParam String dni, @RequestParam String clave, @RequestParam String mail,
 			@RequestParam Integer telefono, @RequestParam List<Taller> taller,
-			@RequestParam Integer numeroAsociado,
+			
 			@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaNacimiento, @RequestParam String direccion,
 			@RequestParam String sexo, MultipartFile foto, @RequestParam String clave2) throws ErrorServicio {
 
-		validate(nombre, apellido, dni, clave, mail, telefono, taller, numeroAsociado, fechaNacimiento, direccion,
+		validate(nombre, apellido, dni, clave, mail, telefono, taller, fechaNacimiento, direccion,
 				sexo, foto, clave2);
 
 		Socio socio = new Socio();
@@ -70,7 +70,7 @@ public class SocioService implements UserDetailsService {
 			socio.setMail(mail);
 			socio.setTelefono(telefono);
 			socio.setTaller(taller);
-			socio.setNumeroAsociado(numeroAsociado);
+			
 			socio.setFechaNacimiento(fechaNacimiento);
 			socio.setDireccion(direccion);
 			socio.setSexo(sexo);
@@ -104,7 +104,7 @@ public class SocioService implements UserDetailsService {
 			MultipartFile foto, String clave2) throws ErrorServicio {
 		{
 
-			validate(nombre, apellido, dni, clave, mail, telefono, taller, numeroAsociado, fechaNacimiento,
+			validate(nombre, apellido, dni, clave, mail, telefono, taller, fechaNacimiento,
 					direccion, sexo, foto, clave2);
 
 			Optional<Socio> rta = repositorio.findById(id);
@@ -123,7 +123,7 @@ public class SocioService implements UserDetailsService {
 					socio.setMail(mail);
 					socio.setTelefono(telefono);
 					socio.setTaller(taller);
-					socio.setNumeroAsociado(numeroAsociado);
+					
 					socio.setFechaNacimiento(fechaNacimiento);
 					socio.setDireccion(direccion);
 					socio.setSexo(sexo);
@@ -251,7 +251,7 @@ public class SocioService implements UserDetailsService {
 	}
 
 	public void validate(String nombre, String apellido, String dni, String clave, String mail, Integer telefono,
-			List<Taller> taller, Integer numeroAsociado, Date fechaNacimiento, String direccion, String sexo,
+			List<Taller> taller, Date fechaNacimiento, String direccion, String sexo,
 			MultipartFile foto, String clave2) throws ErrorServicio {
 
 		if (nombre.isEmpty()) {
