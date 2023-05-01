@@ -4,6 +4,7 @@ package com.club.sanmartin.Controladores;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+
 import com.club.sanmartin.Entidades.Role;
 import com.club.sanmartin.Entidades.Socio;
 import com.club.sanmartin.Entidades.Taller;
@@ -33,6 +35,7 @@ import com.club.sanmartin.Repository.RoleRepository;
 import com.club.sanmartin.Repository.SocioRepository;
 import com.club.sanmartin.Service.SocioService;
 import com.club.sanmartin.Service.TallerService;
+import com.sun.tools.javac.code.Attribute.Error;
 
 
 
@@ -57,25 +60,23 @@ public class SocioController {
 	@Autowired
 	private RoleRepository roleRepository;
 	
+	@GetMapping("/talleres")
+	public String talleresView(){
+		return "talleres.html";
+	}
 	@GetMapping("/login")
 	public String loginView(){
 		return "login.html";
-	}
-	
+	}		
 	@PostMapping("/login")
-    public ResponseEntity<String> authenticateUser(LoginDto loginDto){
-        
-        	Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-        
-                loginDto.getUsername(), loginDto.getPassword()));
-        
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        return new ResponseEntity<>("Estás Loggeado!.", HttpStatus.OK);
-
-    }		
+    public String authenticateUser(ModelMap model, @RequestParam String dni, @RequestParam String clave){
+			
+		
+			service.loadUserByUsername(dni);
 	
-	@RequestMapping(value = "/registrar", method = RequestMethod.GET)
+		return "inicio.html";
+	}		
+    @RequestMapping(value = "/registrar", method = RequestMethod.GET)
 	public String registerView(ModelMap model) {
 
 		List<Taller> taller;
@@ -93,7 +94,7 @@ public class SocioController {
 	@PostMapping ("/registrar")
 	public String registrar(ModelMap model, @RequestParam String nombre, @RequestParam String apellido,
 			@RequestParam String dni, @RequestParam String clave, @RequestParam String mail,
-			@RequestParam Integer telefono, @RequestParam List<Taller> taller,
+			@RequestParam String telefono, @RequestParam List<Taller> taller,
 			
 			@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaNacimiento, @RequestParam String direccion,
 			@RequestParam String sexo, MultipartFile foto, @RequestParam String clave2) {
@@ -108,7 +109,7 @@ public class SocioController {
 
 		}
 
-		return "inicio.html";
+		return "talleres.html";
 	}
 
 	@GetMapping("/editar/{id}")
@@ -132,7 +133,7 @@ public class SocioController {
 
 	@PostMapping("/editar")
 	public String edit(ModelMap model, String id, String nombre, String apellido, String dni, String password,
-			String mail, Integer telefono, List<Taller> taller, Integer numeroAsociado,
+			String mail, String telefono, List<Taller> taller, Integer numeroAsociado,
 			@DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaNacimiento, String direccion, String sexo,
 			MultipartFile foto, String clave2) {
 
@@ -195,7 +196,7 @@ public class SocioController {
 
 		try {
 
-			Socio socio = service.searchBydni(dni);
+			Optional <Socio> socio = service.searchBydni(dni);
 			model.addAttribute("socio", socio);
 		} catch (ErrorServicio e) {
 			model.addAttribute("error", e.getMessage());

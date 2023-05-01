@@ -1,17 +1,16 @@
 package com.club.sanmartin.Controladores;
 
-
 import lombok.Data;
 
 @Data
 public class LoginDto {
-	private String username;
+    private String dni;
     private String password;
-	public String getUsername() {
-		return username;
+	public String getDni() {
+		return dni;
 	}
-	public void setUsername(String username) {
-		this.username = username;
+	public void setDni(String dni) {
+		this.dni = dni;
 	}
 	public String getPassword() {
 		return password;
@@ -20,4 +19,5 @@ public class LoginDto {
 		this.password = password;
 	}
 	
+    
 }

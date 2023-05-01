@@ -1,10 +1,13 @@
 package com.club.sanmartin.Service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
 
@@ -45,11 +48,15 @@ public class SocioService implements UserDetailsService {
 
 	@Autowired
 	private FotoService fService;
-
+	
+	public void CustomUserDetailsService(SocioRepository userRepository) {
+        this.repositorio = userRepository;
+    }
+	
 	@Transactional
 	public void create( @RequestParam String nombre, @RequestParam String apellido,
 			@RequestParam String dni, @RequestParam String clave, @RequestParam String mail,
-			@RequestParam Integer telefono, @RequestParam List<Taller> taller,
+			@RequestParam String telefono, @RequestParam List<Taller> taller,
 			
 			@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaNacimiento, @RequestParam String direccion,
 			@RequestParam String sexo, MultipartFile foto, @RequestParam String clave2) throws ErrorServicio {
@@ -99,7 +106,7 @@ public class SocioService implements UserDetailsService {
 	
 	@Transactional
 	public void edit(ModelMap model, String id, String nombre, String apellido, String dni, String clave,
-			String mail, Integer telefono, List<Taller> taller, Integer numeroAsociado,
+			String mail, String telefono, List<Taller> taller, Integer numeroAsociado,
 			@DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaNacimiento, String direccion, String sexo,
 			MultipartFile foto, String clave2) throws ErrorServicio {
 		{
@@ -214,7 +221,7 @@ public class SocioService implements UserDetailsService {
 	}
 
 	@Transactional(readOnly = true)
-	public Socio searchBydni(String dni) throws ErrorServicio {
+	public Optional <Socio> searchBydni(String dni) throws ErrorServicio {
 
 		if (dni == null) {
 			throw new ErrorServicio("el dni no puede estar vacio  ");
@@ -223,12 +230,12 @@ public class SocioService implements UserDetailsService {
 
 		}
 
-		List<Socio> lista = repositorio.buscarDni(dni);
+		Optional <Socio> lista = repositorio.buscarDni(dni);
 
 		if (lista==null) {
 			throw new ErrorServicio("no existe socio con ese dni");
 		} else {
-			return lista.get(0);
+			return lista;
 		}
 	}
 
@@ -250,7 +257,7 @@ public class SocioService implements UserDetailsService {
 
 	}
 
-	public void validate(String nombre, String apellido, String dni, String clave, String mail, Integer telefono,
+	public void validate(String nombre, String apellido, String dni, String clave, String mail, String telefono,
 			List<Taller> taller, Date fechaNacimiento, String direccion, String sexo,
 			MultipartFile foto, String clave2) throws ErrorServicio {
 
@@ -309,37 +316,22 @@ public class SocioService implements UserDetailsService {
 
 		}}
 		
-	
-		
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		
-		
-		Socio usuario = repositorio.buscarDni(username).get(0);
-		if(usuario!=null){
-			List<GrantedAuthority> permisos = new ArrayList<>();
 
-			GrantedAuthority permiso1 = new SimpleGrantedAuthority("ROLE_SOCIO");
-			permisos.add(permiso1);
+    @Override
+    public UserDetails loadUserByUsername(String dni) throws UsernameNotFoundException {
+          Socio user = ((Optional<Socio>) repositorio.buscarDni(dni))
+                 .orElseThrow(() ->
+                         new UsernameNotFoundException("Usuario no encontrado por dni: "+ dni));
 
-			if (usuario.getNombre().equalsIgnoreCase("ADMIN")) {
-				GrantedAuthority permiso2 = new SimpleGrantedAuthority("ROLE_ADMIN");
-				permisos.add(permiso2);
+        Set<GrantedAuthority> authorities = user
+                .getRoles()
+                .stream()
+                .map((role) -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toSet());
 
-			}
-
-			ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-
-			HttpSession session = attr.getRequest().getSession(true);
-			session.setAttribute("usuariosession", usuario);
-
-			User user = new User(usuario.getDni().toString(), usuario.getClave(), permisos);
-			return user;
-		} else {
-			return null;
-		}
-
-	}
+        return new org.springframework.security.core.userdetails.User(user.getDni(),
+                user.getClave(),
+                authorities);
+    }
 
 		
 

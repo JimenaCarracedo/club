@@ -30,19 +30,19 @@ import com.club.sanmartin.Service.TallerService;
 public class CuotaController {
 	
 	@Autowired
-	private EventosService EvSv;
+	private EventosService evSv;
 
 	@Autowired
-	private TallerService TaSv;
+	private TallerService taSv;
 
 	@Autowired
-	private CuotaService CuoSv;
+	private CuotaService cuoSv;
 
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
 	@GetMapping("admin/cuota")
 	public String listar(ModelMap modelo) {
 		try {
-			List<Cuotas> lista = CuoSv.showAll();
+			List<Cuotas> lista = cuoSv.showAll();
 			modelo.addAttribute("cuota", lista);
 			modelo.addAttribute("activeLink", "Cuotas");
 
@@ -56,7 +56,7 @@ public class CuotaController {
 	@GetMapping("/eliminar/{id}")
 	public String borrar(ModelMap modelo, @PathVariable String id) {
 		try {
-			CuoSv.delete(id);
+			cuoSv.delete(id);
 		} catch (Exception e) {
 			modelo.addAttribute("error", e.getMessage());
 		}
@@ -68,7 +68,7 @@ public class CuotaController {
 	  @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
 	  
 	  @GetMapping("/ver-cuota{id}") public String verAnalisis(ModelMap
-	  modelo, @PathVariable String id) { try { Optional<Cuotas> cu = CuoSv.findById(id);
+	  modelo, @PathVariable String id) { try { Optional<Cuotas> cu = cuoSv.findById(id);
 	  modelo.addAttribute(cu); } catch (Exception e) { modelo.addAttribute("error",
 	  e.getMessage()); }
 	  
@@ -79,10 +79,10 @@ public class CuotaController {
 	public String viewEdit(ModelMap modelo, @PathVariable String id) {
 		try {
 		    
-			modelo.addAttribute("taller", TaSv.showAll());
-			List<Eventos> ev = EvSv.showAll();
+			modelo.addAttribute("taller", taSv.showAll());
+			List<Eventos> ev = evSv.showAll();
 			modelo.addAttribute("eventos", ev);
-			Optional<Cuotas> cuo = CuoSv.findById(id);
+			Optional<Cuotas> cuo = cuoSv.findById(id);
 			modelo.addAttribute("cuo", cuo);
 		} catch (Exception e) {
 			modelo.addAttribute("error", e.getMessage());
@@ -97,7 +97,7 @@ public class CuotaController {
 			@RequestParam MultipartFile foto, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaOrden,
 			@RequestParam Socio socio, @RequestParam Taller taller) throws ErrorServicio {
 		try {
-			CuoSv.edit(id, evento, foto, fechaOrden, socio, taller);
+			cuoSv.edit(id, evento, foto, fechaOrden, socio, taller);
 		} catch (ErrorServicio e) {
 			modelo.addAttribute("error", e.getMessage());
 		}
@@ -110,8 +110,8 @@ public class CuotaController {
 	public String nuevaCuo(ModelMap modelo) {
 		try {
 			
-			modelo.addAttribute("Taller", TaSv.showAll());
-			List<Eventos> ev = EvSv.showAll();
+			modelo.addAttribute("Taller", taSv.showAll());
+			List<Eventos> ev = evSv.showAll();
 			modelo.addAttribute("evento", ev);
 		} catch (Exception e) {
 			modelo.addAttribute("error", e.getMessage());
@@ -125,7 +125,7 @@ public class CuotaController {
 			@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaOrden, @RequestParam Socio socio,
 			@RequestParam Taller taller) throws ErrorServicio {
 		try {
-			CuoSv.create(evento, foto, fechaOrden, socio, taller);
+			cuoSv.create(evento, foto, fechaOrden, socio, taller);
 		} catch (ErrorServicio e) {
 			modelo.addAttribute("error", e.getMessage());
 			return ("redirect:/cuota");

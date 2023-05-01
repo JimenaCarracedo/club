@@ -13,8 +13,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -24,7 +26,10 @@ import lombok.Data;
 
 @Data
 @Entity
-
+@Table(name = "socio", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"nombreUsuario"}),
+        
+})
 public class Socio {
 	@Id
 	@GeneratedValue(generator = "uuid")
@@ -36,7 +41,7 @@ public class Socio {
 	private String dni;
 	private String password;
 	private String mail;
-	private Integer telefono;
+	private String telefono;
 	private String nombreUsuario;
 	
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -56,6 +61,8 @@ public class Socio {
 	private String direccion;
 
 	private String sexo;
+	
+	private String authority;
 	
 	@OneToOne
 	private Foto foto;
@@ -120,11 +127,11 @@ public class Socio {
 		this.mail = mail;
 	}
 
-	public Integer getTelefono() {
+	public String getTelefono() {
 		return telefono;
 	}
 
-	public void setTelefono(Integer telefono) {
+	public void setTelefono(String telefono) {
 		this.telefono = telefono;
 	}
 
@@ -179,6 +186,26 @@ public class Socio {
 	public void setRoles(Set<Role> roles) {
 		this.roles=roles;
 		
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public String getAuthority() {
+		return authority;
+	}
+
+	public void setAuthority(String authority) {
+		this.authority = authority;
 	}
 
 	
