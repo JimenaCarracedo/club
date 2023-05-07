@@ -9,6 +9,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -316,9 +317,9 @@ public class SocioService implements UserDetailsService {
 
 		}}
 		
-
-    @Override
+	@Override
     public UserDetails loadUserByUsername(String dni) throws UsernameNotFoundException {
+		 
           Socio user = ((Optional<Socio>) repositorio.buscarDni(dni))
                  .orElseThrow(() ->
                          new UsernameNotFoundException("Usuario no encontrado por dni: "+ dni));
@@ -406,5 +407,7 @@ public class SocioService implements UserDetailsService {
 		}
 
 	}
+
+	
 	
 }

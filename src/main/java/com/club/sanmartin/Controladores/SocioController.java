@@ -14,6 +14,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -69,13 +70,14 @@ public class SocioController {
 		return "login.html";
 	}		
 	@PostMapping("/login")
-    public String authenticateUser(ModelMap model, @RequestParam String dni, @RequestParam String clave){
+    public String authenticateUser(Socio socio){
 			
-		
-			service.loadUserByUsername(dni);
-	
-		return "inicio.html";
-	}		
+	        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+	                socio.getDni(), socio.getClave()));
+
+	        SecurityContextHolder.getContext().setAuthentication(authentication);
+	        return "inicio.html";
+	}
     @RequestMapping(value = "/registrar", method = RequestMethod.GET)
 	public String registerView(ModelMap model) {
 
