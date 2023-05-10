@@ -11912,7 +11912,7 @@ main {
   color:var(--bs-blue-dark);
 }
 
-section{
+aside{
   display:flex;
 	margin: 2rem auto;
   width:80%;
@@ -11921,7 +11921,7 @@ section{
 }
 
 
-section img{
+aside img{
   width:0;
   flex-grow:1;
   object-fit:cover;
@@ -11929,7 +11929,7 @@ section img{
   transition:.5s ease;
   
 }
-section img:hover, .active{
+aside img:hover, .active{
   cursor:crosshair;
   width:300px;
   opacity:1;
