@@ -61,6 +61,11 @@ public class SocioController {
 	@Autowired
 	private RoleRepository roleRepository;
 	
+	@GetMapping("/inicio")
+	public String inicioView(){
+		return "inicio.html";
+	}
+	
 	@GetMapping("/eventos")
 	public String eventosView(){
 		return "eventos.html";
